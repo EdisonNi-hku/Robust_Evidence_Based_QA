@@ -11,7 +11,7 @@ The data generation follows five general steps:
 4. Design an instruction encompassing 0-3 _relevant_ sources and 3-6 _irrelevant_ sources, along with the corresponding question. 
 5. Create an answer to the question following the provided instruction.
 
-For details on the data generation pipeline, see the folder "data_generation".
+For details on the data generation pipeline, see the folder "data_generation". You will need to insert your own Open-AI API key to execute the code.
 
 ## Data quality filtering
 Following commands show how to apply data quality filters to improve synthetic data quality, leading to superior fine-tuning outcome. In other words, how to obtain **train_data/SynSciQA+.json** and **train_data/SynSciQA++.json** from **train_data/SynSciQA.json**
