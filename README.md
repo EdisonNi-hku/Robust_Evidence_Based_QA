@@ -2,8 +2,16 @@
 This repository contains the code for the paper "[Towards Faithful and Robust LLM Specialists for Evidence-Based Question-Answering](https://arxiv.org/pdf/2402.08277.pdf)", where we propose a data synthesize pipeline for fine-tuning and evaluating LLMs for Evidence-Based QA. Fine-tuning on our synthetic data drastically improve the answer traceability and attributability of LLM outputs.
 
 ## Data Generation Pipeline
-This section introduces how to generate diversified Evidence-Based QA data for training and evaluation.
-TODOTODO
+This section introduces how to generate diversified Evidence-Based QA data for training and evaluation. 
+
+The data generation follows five general steps:
+1. Generate a broad array of 100+ scientific topics. 
+2. Generate 25 distinctive questions for each topic. 
+3. Create three source paragraphs _relevant_ to each question. 
+4. Design an instruction encompassing 0-3 _relevant_ sources and 3-6 _irrelevant_ sources, along with the corresponding question. 
+5. Create an answer to the question following the provided instruction.
+
+For details on the data generation pipeline, see the folder "data_generation".
 
 ## Data quality filtering
 Following commands show how to apply data quality filters to improve synthetic data quality, leading to superior fine-tuning outcome. In other words, how to obtain **train_data/SynSciQA+.json** and **train_data/SynSciQA++.json** from **train_data/SynSciQA.json**
