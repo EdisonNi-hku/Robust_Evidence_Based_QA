@@ -18,7 +18,7 @@ Following commands show how to apply data quality filters to improve synthetic d
 ```shell
 ## Filter SynSciQA with source quality filter, obtaining SynSciQA+
 # These steps show the exemplary filtering process. 
-# It is highly advised to get into the code and understand the options.
+# It is highly recommended to get into the code and understand the options.
 
 # Filtering SynSciQA with the source quality filter (example)
 python data_filtering/filter_with_sourceQuality.py --name_to_filter ./train_data/SynSciQA.json --question_source_pairs ./data_filtering/filter_with_sourceQuality/SynSciQA_all_raw_question_source_pairs.csv --output_name ./data_filtering/filter_with_sourceQuality/ScientificQA_filtered_test.json
