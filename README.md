@@ -67,8 +67,8 @@ python training/inference.py --architecture zephyr --no_sample --model_cache_dir
 # Here we inference SynSciQA_test with the first-epoch checkpoint of zephyr fine-tuned on SynSciQA. 
 # The output file is zephyr_synsciqa_synsciqa.csv
 
-# Then compute its source quality score
-# TODO
+# Then compute its source quality score (example)
+python data_filtering/evaluate_sourceQuality.py --golden_data ./data_filtering/golden_sources/GenSearch_test_with_golden_sources.csv --model_data ./data_filtering/sourceQuality_score_test/GenSearch_test_Llama2_answers.csv
 # Finally compute its attributability score (when the used model is llama-2, spliter should be '[/INST] ' instead)
 OUTPUT_NAME=zephyr_synsciqa_synsciqa
 python training/parse_for_entailment_eval.py --data_path zephyr_synsciqa_synsciqa.csv --output_name ${OUTPUT_NAME} --spliter="<|assistant|>"
