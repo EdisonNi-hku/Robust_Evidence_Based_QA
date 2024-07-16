@@ -17,7 +17,14 @@ For details on the data generation pipeline, see the folder "data_generation". Y
 Following commands show how to apply data quality filters to improve synthetic data quality, leading to superior fine-tuning outcome. In other words, how to obtain **train_data/SynSciQA+.json** and **train_data/SynSciQA++.json** from **train_data/SynSciQA.json**
 ```shell
 ## Filter SynSciQA with source quality filter, obtaining SynSciQA+
-#TODO
+# These steps show the exemplary filtering process. 
+# It is highly advised to get into the code and understand the options.
+
+# Filtering SynSciQA with the source quality filter (example)
+python data_filtering/filter_with_sourceQuality.py --name_to_filter ./train_data/SynSciQA.json --question_source_pairs ./data_filtering/filter_with_sourceQuality/SynSciQA_all_raw_question_source_pairs.csv --output_name ./data_filtering/filter_with_sourceQuality/ScientificQA_filtered_test.json
+
+# Evaluate fine-tuned model output with source quality score (example)
+python data_filtering/evaluate_sourceQuality.py --golden_data ./data_filtering/golden_sources/GenSearch_test_with_golden_sources.csv --model_data ./data_filtering/sourceQuality_score_test/GenSearch_test_Llama2_answers.csv
 
 ## Filter SynSciQA+ with format and attributability quality, obtaining SynSciQA++
 
