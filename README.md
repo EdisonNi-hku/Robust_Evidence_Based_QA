@@ -79,52 +79,57 @@ python data_filtering/evaluate_entailment.py --load_4bit --input_file ${OUTPUT_N
 python training/compute_entailment_scores.py --filename ${OUTPUT_NAME}
 ```
 ## Data
-TODOTODO
 We disclose all LLM generations, human annotations, and raw data in paper, which can be found in the following directories:
 
 ```markdown
-data/
+train_data/               # Training Datasets (see Section 3)
 │
-├── CLEF-2021_test/                       # CLEF2021 dev set
-│   ├── CLEF2021_gpt_with_human_eval.xlsx # Annotations of GPT-3.5/4 and Two Human Experts
-│   ├── CLEF2021_zephyr.xlsx              # Annotations of zephyr-7b
-│   └── CLEF2021_llama.xlsx               # Annotations of llama-2-chat-13b
+├── SynSciQA.json         # raw SynSciQA training data
+├── SynSciQA+.json        # + applied Source Quality filter
+└── SynSciQA++.json       # + applied Answer Attributability Quality Filter
+
+test_data/                # Evaluations Datasets (see Section 4)
 │
-├── CoT_self-consistency/                 # Self-consistency CoT Generations
-│   ├── clef2021_test_G3_CoT.xlsx         # GPT-3.5's generations on CLEF2021
-│   ├── clef2021_test_G4_CoT.xlsx         # GPT-4's generations on CLEF2021
-│   ├── policlaim_test_G3_CoT.xlsx        # GPT-3.5's generations on PoliClaim
-│   ├── policlaim_test_G4_CoT.xlsx        # GPT-4's generations on PoliClaim
+├── SynSciQA_test.csv     # SynSciQA test set
+├── GenSearch_test.csv    # GenSearch test set
+├── ChatReport_test.csv   # ChatReport test set
+└── ClimateQA_test.csv    # Climate QA test set
+
+handeval_data/                                  # Hand-evaluation data
 │
-├── PoliClaim_test/                               # PoliClaim test set
-│   ├── policlaim_gpt_with_human_eval_merged.xlsx # Annotations of GPT-3.5/4 and Two Human Experts, merging CA2022, AK2022, AL2022, CO2022
-│   ├── policlaim_zephyr_merged.xlsx              # Annotations of zephyr-7b
-│   └── policlaim_llama_merged.xlsx               # Annotations of llama-2-chat-13b
-│
-├── PoliClaim_train_golden/               # PoliClaim Golden training data, with human supervision (a column called "golden")
-├── raw_speeches/                         # Files containing unannotated political speech data.
-│   ├── ..._processed.csv                 # Sentences shorter than 30 char-length are concatenated to the previous sentences.
-│   └── ....tsv                           
-└── PoliClaim_train_silver_n_bronze/      # Silver and bronze training data without human double-check
+├── handeval_SynSciQA++/                        # Hand-evaluation of quality-filtered data (see Appendix D)
+│   └── HandEval_of_QualityFilters_SynSciQA++.xlsx
+├── handeval_models_on_benchmark_datasets/      # Hand-evaluation of different models output vs. automatic scores (see Appendix J)
+│   ├── ChatReport_test_eval.xlsx               # on ChatReport test set
+│   ├── ClimateQA_test_eval.xlsx                # on ClimateQA test set
+│   ├── GenSearch_test_eval.xlsx                # on GenSearch test set
+│   └── SynSciQA_test_eval.xlsx                 # on SynSciQA test set
 ```
 
 ### Fields of data files
 
-- policlaim_gpt_with_human_eval_merged.xlsx
-  - SENTENCES: target sentences
-  - SPEECH: from which speech the sentence comes
-  - Qx_y: annotator y's answer to Qx (x, y can be 1 or 2)
-  - model_name (gpt-3.5, gpt-4, llama etc.): the aggregated AFaCTA output (0~3) from the model.
-  - model_name-s?-...: output of each AFaCTA step by the model. Please refer to the paper or prompts for details about each AFaCTA score.
-  - Golden: the final golden label
-  - label_1/2: the label from annotator 1 or 2
-- policlaim_llama_merged.xlsx
-  - ver_aggregated: AFaCTA step 1 result
-  - ANALYSIS1, FACT_PART1, VERIFIABLE_REASON1, VERIFIABILITY1, CATEGORY1: reasoning steps of AFaCTA step 2
-  - p2_aggregated: AFaCTA step 2 result
-  - subjectivity: Reasoning about not verifiable
-  - objectivity: Reasoning about verifiable
-  - ob_aggregated: AFaCTA step 3.1 result
-  - sub_aggregated: AFaCTA step 3.2 result
+- SynSciQA(+/++).json
+  - instruction: instruction given to the model
+  - response: response produced by the model
 
-Other data files have similar fields as the above two.
+- SynSciQA_test/GenSearch_test/ChatReport_test/ClimateQA_test.csv
+  - instruction: instruction given to the model
+  - gpt-35: response by GPT-3.5
+  - gpt-4: response by GPT-4
+
+- HandEval_of_QualityFilters_SynSciQA++.xlsx
+  - evidence: source paragraph that is cited
+  - answer: answer sentence that should be entailed by evidence
+  - Annotator_1: entailment judgement by annotator 1
+  - Annotator_2: entailment judgement by annotator 2
+
+- ChatReport_test_eval/.../SynSciQA_test_eval.xlsx
+  - instruction: instruction given to the model
+  - gpt-35/gpt-4/output: answer by the model
+  - Correct: indicator whether the answer is completely correct
+  - Num Sentences: number of sentences in the answer
+  - Num Correct Sentences: correctly cited and entailed sentences
+  - Relative Score: Num Correct Sentences / Num Sentences
+  - Final Score: average score for the model
+[Each workbook represents a model. Naming convention: gpt35 singals GPT-3.5, gpt4 signal GPT-4, c13b signal LLama-2-13B, z7b1 signals Zephyr-7B; 0e signals non-fine-tuned model, 2e signals model is fine-tuned for two epochs.]
+
