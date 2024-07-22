@@ -95,6 +95,16 @@ test_data/                # Evaluations Datasets (see Section 4)
 ├── ChatReport_test.csv   # ChatReport test set
 └── ClimateQA_test.csv    # Climate QA test set
 
+data_filtering/                                 # Data for Source Quality
+│
+├── filter_with_sourceQuality/                  # All generated sources for a question
+│   ├── ...
+│   └── SynSciQA_all_raw_question_source_pairs.csv
+├── golden_sources/                             # Evaluation data for Source Quality
+│   ├── GenSearch_test_with_golden_sources.csv  # GenSearch_test with golden sources
+│   └── SynSciQA_test_with_golden_sources.csv   # SynSciQA with golden sources
+└── ...
+
 handeval_data/                                  # Hand-evaluation data
 │
 ├── handeval_SynSciQA++/                        # Hand-evaluation of quality-filtered data (see Appendix D)
@@ -116,6 +126,18 @@ handeval_data/                                  # Hand-evaluation data
   - instruction: instruction given to the model
   - gpt-35: response by GPT-3.5
   - gpt-4: response by GPT-4
+
+- SynSciQA_all_raw_question_source_pairs.csv
+  - topic: topic of the question
+  - question: question generated
+  - source: source generated
+
+- GenSearch_test_with_golden_sources/SynSciQA_test_with_golden_sources.csv
+  - question: question
+  - right_source: sources that address the question
+  - other_source: source that do not address the question
+  - instruction: final instruction including question, right_source and other_source
+
 
 - HandEval_of_QualityFilters_SynSciQA++.xlsx
   - evidence: source paragraph that is cited
